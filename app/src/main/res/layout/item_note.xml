@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
@@ -23,9 +24,10 @@
             android:textColor="@color/justnote_text_primary"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:visibility="gone"
+            android:visibility="visible"
             android:ellipsize="end"
-            android:maxLines="2" />
+            android:maxLines="2"
+            tools:text="Sample Note Title" />
 
         <TextView
             android:id="@+id/tvContent"
@@ -35,7 +37,8 @@
             android:textColor="@color/justnote_text_secondary"
             android:textSize="14sp"
             android:ellipsize="end"
-            android:maxLines="8" />
+            android:maxLines="8"
+            tools:text="Sample note content text that shows how the card looks in Android Studio layout editor." />
 
         <TextView
             android:id="@+id/tvDate"
@@ -43,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="#9E9E9E"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            tools:text="Oct 27, 2026 10:00 AM" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

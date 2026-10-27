@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="justnote_yellow">#F9AB00</color>
+    <color name="justnote_yellow_dark">#C78800</color>
+    <color name="justnote_bg">#FAFAFA</color>
+    <color name="justnote_card_bg">#FFFFFF</color>
+    <color name="justnote_text_primary">#202124</color>
+    <color name="justnote_text_secondary">#5F6368</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

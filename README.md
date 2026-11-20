@@ -11,6 +11,7 @@
 - **Local-First Storage**: Instant local saving using Room database. Never waits for network.
 - **Durable Remote Storage**: Keeps notes synchronized with ONE configured private GitHub repository under `.justnote/notes/{noteId}.json`.
 - **Zero Distractions**: No folders, no tags, no backlinks, no graph views, no unnecessary bloat.
+- **Adaptive Appearance**: Choose Light, Dark, or System default from Settings; new notes open straight into the keyboard.
 
 ---
 
@@ -55,9 +56,9 @@
 ## 📱 Installation & Setup Guide
 
 ### 1. Download APK
-Download [JustNote-v1.0.1.apk](https://github.com/jasonhukom/Note-Brain/releases/download/v1.0.1/JustNote-v1.0.1.apk) from the [GitHub Releases](https://github.com/jasonhukom/Note-Brain/releases) page and install it on your Android device (Android 10+ / API 29+).
+Download [JustNote-v1.0.2.apk](https://github.com/jasonhukom/Note-Brain/releases/download/v1.0.2/JustNote-v1.0.2.apk) from the [GitHub Releases](https://github.com/jasonhukom/Note-Brain/releases) page and install it on your Android device (Android 10+ / API 29+).
 
-> **v1.0.1:** Fixes the launch crash caused by missing Room database implementations.
+> **v1.0.2:** Adds Light/Dark/System theme selection, fixes the settings button touch target, opens the keyboard immediately for new notes, and ships the new JustNote notebook icon.
 
 ### 2. GitHub Token Configuration
 1. Create a private repository on GitHub (e.g., `my-notes`).

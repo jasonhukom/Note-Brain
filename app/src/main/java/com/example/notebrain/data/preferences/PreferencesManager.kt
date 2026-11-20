@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.notebrain.utils.ThemeMode
 import java.util.UUID
 
 open class PreferencesManager(context: Context? = null) {
@@ -16,6 +17,7 @@ open class PreferencesManager(context: Context? = null) {
         private const val KEY_GITHUB_REPO = "key_github_repo"
         private const val KEY_GITHUB_TOKEN = "key_github_token"
         private const val KEY_LAST_SYNC_TIME = "key_last_sync_time"
+        private const val KEY_THEME_MODE = "key_theme_mode"
     }
 
     private fun createEncryptedSharedPreferences(context: Context): SharedPreferences {
@@ -77,5 +79,13 @@ open class PreferencesManager(context: Context? = null) {
             ?.remove(KEY_GITHUB_REPO)
             ?.remove(KEY_GITHUB_TOKEN)
             ?.apply()
+    }
+
+    open fun getThemeMode(): ThemeMode {
+        return ThemeMode.from(prefs?.getString(KEY_THEME_MODE, null))
+    }
+
+    open fun saveThemeMode(mode: ThemeMode) {
+        prefs?.edit()?.putString(KEY_THEME_MODE, mode.preferenceValue)?.apply()
     }
 }

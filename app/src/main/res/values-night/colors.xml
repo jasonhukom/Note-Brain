@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="justnote_bg">#121212</color>
+    <color name="justnote_card_bg">#1E1E1E</color>
+    <color name="justnote_text_primary">#ECECEC</color>
+    <color name="justnote_text_secondary">#9E9E9E</color>
+    <color name="justnote_card_stroke">#333333</color>
+    <color name="justnote_divider">#333333</color>
+</resources>

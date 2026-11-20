@@ -8,7 +8,7 @@
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
     app:cardBackgroundColor="@color/justnote_card_bg"
-    app:strokeColor="#E0E0E0"
+    app:strokeColor="@color/justnote_card_stroke"
     app:strokeWidth="1dp">
 
     <LinearLayout

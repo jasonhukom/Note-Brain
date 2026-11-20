@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,8 @@ import com.example.notebrain.repository.SyncRepository
 import com.example.notebrain.sync.SyncScheduler
 import com.example.notebrain.utils.DateUtils
 import com.example.notebrain.utils.SyncStatus
+import com.example.notebrain.utils.ThemeManager
+import com.example.notebrain.utils.ThemeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,6 +34,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var btnSyncNow: Button
     private lateinit var tvSyncStatus: TextView
     private lateinit var tvLastSynced: TextView
+    private lateinit var rgThemeMode: RadioGroup
 
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var syncRepository: SyncRepository
@@ -62,12 +66,14 @@ class SettingsActivity : AppCompatActivity() {
         btnSyncNow = findViewById(R.id.btnSyncNow)
         tvSyncStatus = findViewById(R.id.tvSyncStatus)
         tvLastSynced = findViewById(R.id.tvLastSynced)
+        rgThemeMode = findViewById(R.id.rgThemeMode)
 
         etOwner.setText(preferencesManager.getGitHubOwner())
         etRepo.setText(preferencesManager.getGitHubRepo())
         etToken.setText(preferencesManager.getGitHubToken())
 
         updateSyncInfo()
+        setupThemeSelector()
 
         btnTest.setOnClickListener { testConnection() }
         btnSave.setOnClickListener { saveSettings() }
@@ -82,6 +88,28 @@ class SettingsActivity : AppCompatActivity() {
         lifecycleScope.launch {
             syncRepository.syncStatus.collect { status ->
                 renderSyncStatus(status)
+            }
+        }
+    }
+
+    private fun setupThemeSelector() {
+        val currentMode = preferencesManager.getThemeMode()
+        when (currentMode) {
+            ThemeMode.LIGHT -> R.id.rbThemeLight
+            ThemeMode.DARK -> R.id.rbThemeDark
+            ThemeMode.SYSTEM -> R.id.rbThemeSystem
+        }.let { rgThemeMode.check(it) }
+
+        rgThemeMode.setOnCheckedChangeListener { _, checkedId ->
+            val selectedMode = when (checkedId) {
+                R.id.rbThemeLight -> ThemeMode.LIGHT
+                R.id.rbThemeDark -> ThemeMode.DARK
+                R.id.rbThemeSystem -> ThemeMode.SYSTEM
+                else -> return@setOnCheckedChangeListener
+            }
+            if (selectedMode != preferencesManager.getThemeMode()) {
+                preferencesManager.saveThemeMode(selectedMode)
+                ThemeManager.apply(selectedMode)
             }
         }
     }

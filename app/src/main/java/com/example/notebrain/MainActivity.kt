@@ -2,13 +2,15 @@ package com.example.notebrain
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
@@ -33,13 +35,14 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: NotesAdapter
     private lateinit var tvEmpty: TextView
-    private lateinit var tvSyncBadge: TextView
+    private var tvSyncBadge: TextView? = null
     private lateinit var networkMonitor: NetworkMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -53,7 +56,6 @@ class MainActivity : AppCompatActivity() {
 
         val rvNotes = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvNotes)
         tvEmpty = findViewById(R.id.tvEmpty)
-        tvSyncBadge = findViewById(R.id.tvSyncBadge)
 
         adapter = NotesAdapter { note ->
             val intent = EditNoteActivity.createIntent(this, note.id)
@@ -65,10 +67,6 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<FloatingActionButton>(R.id.fabAdd).setOnClickListener {
             startActivity(EditNoteActivity.createIntent(this))
-        }
-
-        findViewById<ImageButton>(R.id.btnSettings).setOnClickListener {
-            startActivity(SettingsActivity.createIntent(this))
         }
 
         lifecycleScope.launch {
@@ -92,6 +90,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         handleShareIntent(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        tvSyncBadge = menu.findItem(R.id.action_sync_status)?.actionView?.findViewById(R.id.tvSyncBadge)
+        renderSyncBadge(viewModel.syncStatus.value)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(SettingsActivity.createIntent(this))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -133,33 +148,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderSyncBadge(status: SyncStatus) {
+        val badge = tvSyncBadge ?: return
         when (status) {
             SyncStatus.IDLE, SyncStatus.NOT_CONFIGURED -> {
-                tvSyncBadge.visibility = View.GONE
+                badge.visibility = View.GONE
             }
             SyncStatus.SYNCING -> {
-                tvSyncBadge.visibility = View.VISIBLE
-                tvSyncBadge.text = "Syncing..."
+                badge.visibility = View.VISIBLE
+                badge.text = "Syncing..."
             }
             SyncStatus.SYNCED -> {
-                tvSyncBadge.visibility = View.VISIBLE
-                tvSyncBadge.text = "Synced"
+                badge.visibility = View.VISIBLE
+                badge.text = "Synced"
             }
             SyncStatus.WAITING_FOR_NETWORK -> {
-                tvSyncBadge.visibility = View.VISIBLE
-                tvSyncBadge.text = "Offline"
+                badge.visibility = View.VISIBLE
+                badge.text = "Offline"
             }
             SyncStatus.AUTH_REQUIRED -> {
-                tvSyncBadge.visibility = View.VISIBLE
-                tvSyncBadge.text = "Auth Error"
+                badge.visibility = View.VISIBLE
+                badge.text = "Auth Error"
             }
             SyncStatus.CONFLICT -> {
-                tvSyncBadge.visibility = View.VISIBLE
-                tvSyncBadge.text = "Conflict"
+                badge.visibility = View.VISIBLE
+                badge.text = "Conflict"
             }
             SyncStatus.ERROR -> {
-                tvSyncBadge.visibility = View.VISIBLE
-                tvSyncBadge.text = "Sync Error"
+                badge.visibility = View.VISIBLE
+                badge.text = "Sync Error"
             }
         }
     }

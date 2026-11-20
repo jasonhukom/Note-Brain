@@ -55,7 +55,9 @@
 ## 📱 Installation & Setup Guide
 
 ### 1. Download APK
-Download [JustNote-v1.0.0.apk](JustNote-v1.0.0.apk) directly or from the [GitHub Releases](https://github.com/jasonhukom/Note-Brain/releases) page and install it on your Android device (Android 10+ / API 29+).
+Download [JustNote-v1.0.1.apk](https://github.com/jasonhukom/Note-Brain/releases/download/v1.0.1/JustNote-v1.0.1.apk) from the [GitHub Releases](https://github.com/jasonhukom/Note-Brain/releases) page and install it on your Android device (Android 10+ / API 29+).
+
+> **v1.0.1:** Fixes the launch crash caused by missing Room database implementations.
 
 ### 2. GitHub Token Configuration
 1. Create a private repository on GitHub (e.g., `my-notes`).
